@@ -1,3 +1,6 @@
+from queue import *
+
+
 class BinarySearchTree:
     def __init__(self, value):
         self.value = value
@@ -15,14 +18,29 @@ class BinarySearchTree:
             current = stack.pop()
             #  call our callback
             cb(current.value)
-            #  add right, then left to stack
+            #  add right, then add to stack
             if current.right:
                 stack.append(current.right)
+            #  if left, add to stack
             if current.left:
                 stack.append(current.left)
 
     def breadth_first_for_each(self, cb):
-        pass
+        #  inialize a queue to store nodes
+        queue = Queue()
+        #  start with root node
+        queue.put(self)
+        #  loop while stack is not empty
+        while not queue.empty():
+            #  dequeue next item
+            current = queue.get()
+            #  run callback
+            cb(current.value)
+            #  add left and right children
+            if current.left:
+                queue.put(current.left)
+            if current.right:
+                queue.put(current.right)
 
     def insert(self, value):
         new_tree = BinarySearchTree(value)
